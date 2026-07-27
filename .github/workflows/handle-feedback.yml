@@ -1,0 +1,61 @@
+name: Handle Reading Feedback
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  update-profile:
+    if: contains(github.event.issue.labels.*.name, 'feedback')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine feedback tag
+        id: tag
+        run: |
+          labels=$(jq -r '.issue.labels[].name' "$GITHUB_EVENT_PATH")
+          tag=""
+          for candidate in "太简单" "正合适" "太难" "生词过多" "内容感兴趣"; do
+            if echo "$labels" | grep -qx "$candidate"; then
+              tag="$candidate"
+              break
+            fi
+          done
+          if [ -z "$tag" ]; then
+            echo "No valid feedback tag found in labels: $labels"
+            exit 1
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Update profile.json
+        run: python3 update_profile_from_feedback.py "${{ steps.tag.outputs.tag }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "kids-reading-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add profile.json
+          git commit -m "Update difficulty from feedback: ${{ steps.tag.outputs.tag }}"
+          git push
+
+      - name: Close issue with comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '已记录反馈：${{ steps.tag.outputs.tag }}，明天的难度会据此调整，感谢！'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });

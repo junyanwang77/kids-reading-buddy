@@ -1,0 +1,64 @@
+name: Daily Kids Reading
+
+on:
+  workflow_dispatch: {}    # 目前只支持手动触发，内容方向确定后再考虑接入每日定时
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Shanghai
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check whether today's reading already exists
+        id: today
+        run: |
+          today="$(date +%F)"
+          echo "date=$today" >> "$GITHUB_OUTPUT"
+
+          if [ -f "archive/${today:0:7}/day-${today}.json" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Today's reading already exists: $today"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.today.outputs.skip != 'true'
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        if: steps.today.outputs.skip != 'true'
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Generate today's reading package
+        if: steps.today.outputs.skip != 'true'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude -p "$(cat prompts/daily_reading.md)" \
+            --output-format text \
+            --model sonnet \
+            --permission-mode bypassPermissions \
+            --fallback-model haiku \
+            --allowedTools "Read,Write,Bash"
+
+      - name: Validate generated package
+        if: steps.today.outputs.skip != 'true'
+        run: |
+          python3 validate_reading.py "${{ steps.today.outputs.date }}"
+
+      - name: Publish (update latest + archive + commit + push)
+        if: steps.today.outputs.skip != 'true'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          git config user.name "kids-reading-bot"
+          git config user.email "actions@users.noreply.github.com"
+          bash ./publish.sh "${{ steps.today.outputs.date }}"

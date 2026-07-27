@@ -1,0 +1,22 @@
+{
+  "child": {
+    "age": 11,
+    "school_level": "深圳公立六年级",
+    "interests": ["Minecraft我的世界", "金毛犬niuniu", "弹钢琴", "游泳"]
+  },
+  "assessment": {
+    "date": "2026-07-27",
+    "reading_level": "A2，在上下文中的理解能力强于孤立词汇量",
+    "writing_level": "偏弱：习惯用现在时描述过去发生的事，句子短、缺少连接词和细节",
+    "target_words": ["nervous", "imagine", "disappointed", "instead", "completely", "borrow"],
+    "avoid_for_now": ["schedule", "environment", "argument", "suggest", "exhausted"],
+    "focus_area": "写作：过去时 + 连接词（and/after that/because） + 细节句"
+  },
+  "state": {
+    "current_difficulty": 2,
+    "difficulty_scale": "1(最简单)-5(最难)",
+    "vocab_count_target": 5,
+    "last_updated": "2026-07-27"
+  },
+  "history": []
+}
