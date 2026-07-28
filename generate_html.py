@@ -5,7 +5,7 @@ import sys
 import html
 from pathlib import Path
 
-REPO = "junyanwang77/kids-english-daily"
+REPO = "junyanwang77/kids-reading-buddy"
 FEEDBACK_TAGS = ["太简单", "正合适", "太难", "生词过多", "内容感兴趣"]
 
 
