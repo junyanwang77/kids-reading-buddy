@@ -1,0 +1,39 @@
+{
+  "date": "2026-07-28",
+  "difficulty": 2,
+  "story_title": "Niuniu and the Minecraft Castle",
+  "story_text": "Last Saturday, Tom wanted to finish his Minecraft castle before dinner. He needed just ten more blocks, but his dog Niuniu kept barking at the door. Tom felt a little nervous because Niuniu never barked like that. He looked outside and saw dark clouds. Instead of finishing his castle, Tom put down his tablet and took Niuniu for a walk before the rain started. On the way, Niuniu jumped into a puddle and got completely wet. Tom laughed and said, 'Now we both need a bath!' When they got home, Tom's castle was still there, waiting. He felt happy that he chose Niuniu instead of Minecraft. Tomorrow, he can imagine a bigger castle - with a doghouse right next to it.",
+  "vocabulary": [
+    {"word": "nervous", "meaning_cn": "紧张的", "example": "Tom felt a little nervous because Niuniu never barked like that."},
+    {"word": "instead", "meaning_cn": "代替；而不是", "example": "Instead of finishing his castle, Tom put down his tablet."},
+    {"word": "completely", "meaning_cn": "完全地", "example": "Niuniu jumped into a puddle and got completely wet."},
+    {"word": "imagine", "meaning_cn": "想象", "example": "Tomorrow, he can imagine a bigger castle."},
+    {"word": "puddle", "meaning_cn": "水坑", "example": "Niuniu jumped into a puddle on the way."},
+    {"word": "barking", "meaning_cn": "（狗）叫", "example": "His dog Niuniu kept barking at the door."}
+  ],
+  "comprehension_questions": [
+    "What was Tom building before dinner?",
+    "What happened to Niuniu on the way to the walk?",
+    "Why do you think Niuniu kept barking at the door before Tom went outside?",
+    "How did Tom feel about choosing Niuniu instead of Minecraft, and why?"
+  ],
+  "speaking_questions": [
+    "Do you have a pet, or is there an animal you love like Niuniu? Tell me about it.",
+    "Have you ever had to stop playing a game to do something else? What happened?",
+    "What would you build first if you could build anything in Minecraft?"
+  ],
+  "writing_task": {
+    "prompt": "Think about something that happened with Niuniu or your Minecraft game this week. Write 3 sentences in the past tense: what happened, what happened next, and how you felt.",
+    "scaffold": [
+      "First, ___ (what happened - use past tense, like 'played' or 'went').",
+      "After that, ___ (what happened next - use a connector like 'and' or 'but').",
+      "I felt ___ because ___ (how you felt and why)."
+    ]
+  },
+  "parent_observation": [
+    "孩子朗读故事时是否流畅，能否正确读出 nervous / completely / imagine 这几个生词的发音。",
+    "复述故事时能否说出类似“因为看到乌云/要下雨，所以带niuniu出去散步”这样的因果关系。",
+    "口语回答时能否说出完整句子，而不是只用单词或短语作答。",
+    "写作三句话时是否主动使用了过去时（如 played, went, felt）以及连接词（after that / because）。"
+  ]
+}
