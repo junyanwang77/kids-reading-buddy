@@ -47,7 +47,19 @@ jobs:
             --model sonnet \
             --permission-mode bypassPermissions \
             --fallback-model haiku \
-            --allowedTools "Read,Write,Bash"
+            --allowedTools "Read,Write"
+
+      - name: Install audio/IPA tools
+        if: steps.today.outputs.skip != 'true'
+        run: pip install --quiet edge-tts eng-to-ipa
+
+      - name: Enrich content (pronunciation audio + IPA)
+        if: steps.today.outputs.skip != 'true'
+        run: python3 enrich_content.py "${{ steps.today.outputs.date }}"
+
+      - name: Render HTML page
+        if: steps.today.outputs.skip != 'true'
+        run: python3 ./generate_html.py "${{ steps.today.outputs.date }}"
 
       - name: Validate generated package
         if: steps.today.outputs.skip != 'true'

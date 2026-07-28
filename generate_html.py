@@ -29,11 +29,20 @@ def build_html(data):
     story_title = esc(data["story_title"])
     story_text = esc(data["story_text"])
 
-    vocab_html = "".join(
-        f'<li><b>{esc(v["word"])}</b> {esc(v["meaning_cn"])} '
-        f'<div class="ex">{esc(v["example"])}</div></li>'
-        for v in data["vocabulary"]
-    )
+    def vocab_item(v):
+        ipa_html = f' <span class="ipa">/{esc(v["ipa"])}/</span>' if v.get("ipa") else ""
+        audio_html = (
+            f'<audio controls preload="none" src="{esc(v["audio"])}"></audio>'
+            if v.get("audio")
+            else ""
+        )
+        return (
+            f'<li><b>{esc(v["word"])}</b>{ipa_html} {esc(v["meaning_cn"])}'
+            f'{audio_html}'
+            f'<div class="ex">{esc(v["example"])}</div></li>'
+        )
+
+    vocab_html = "".join(vocab_item(v) for v in data["vocabulary"])
     comp_html = "".join(f"<li>{esc(q)}</li>" for q in data["comprehension_questions"])
     speak_html = "".join(f"<li>{esc(q)}</li>" for q in data["speaking_questions"])
     scaffold_html = "".join(f"<li>{esc(s)}</li>" for s in data["writing_task"]["scaffold"])
@@ -45,6 +54,15 @@ def build_html(data):
         f'<a class="fbtn" target="_blank" href="{issue_url(date, tag)}">{tag}</a>'
         for tag in FEEDBACK_TAGS
     )
+
+    if data.get("story_audio"):
+        story_audio_html = (
+            f'<audio class="story-audio" controls preload="none" src="{esc(data["story_audio"])}"></audio>'
+            f'<div class="fallback-hint">上面播放不了的话，可以点这个备用朗读（用的是手机/电脑自带的朗读功能，效果没有上面的好）：</div>'
+            f'<button class="readbtn" onclick="readStory()">🔊 备用朗读</button>'
+        )
+    else:
+        story_audio_html = '<button class="readbtn" onclick="readStory()" style="background:#0a7;color:#fff;border:none;">🔊 点击朗读</button>'
 
     return f"""<!doctype html>
 <html lang="zh-CN">
@@ -60,12 +78,17 @@ def build_html(data):
   h1 {{ font-size:22px; margin-bottom:6px; }}
   .meta {{ color:#888; font-size:13px; margin-bottom:18px; }}
   section {{ background:#fff; border-radius:16px; padding:18px 20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,.05); }}
+  audio {{ width:100%; }}
   section h2 {{ font-size:15px; color:#555; margin-bottom:10px; }}
   .story {{ font-size:16px; line-height:1.8; white-space:pre-wrap; }}
-  .readbtn {{ display:inline-block; margin-top:12px; padding:8px 16px; background:#0a7; color:#fff; border:none; border-radius:10px; font-size:14px; }}
+  .story-audio {{ width:100%; margin-top:12px; }}
+  .readbtn {{ display:inline-block; margin-top:10px; padding:6px 14px; background:none; color:#999; border:1px solid #ddd; border-radius:10px; font-size:12px; }}
+  .fallback-hint {{ font-size:12px; color:#aaa; margin-top:4px; }}
   ul {{ list-style:none; }}
   ul li {{ padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px; line-height:1.6; }}
   ul li:last-child {{ border-bottom:none; }}
+  ul li audio {{ display:block; height:32px; margin-top:4px; max-width:220px; }}
+  .ipa {{ color:#888; font-size:13px; }}
   .ex {{ color:#888; font-size:13px; margin-top:2px; }}
   .fb-row {{ display:flex; flex-wrap:wrap; gap:8px; }}
   .fbtn {{ flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }}
@@ -81,7 +104,7 @@ def build_html(data):
   <section>
     <h2>1. 短文 / 朗读版本</h2>
     <div class="story" id="storyText">{story_text}</div>
-    <button class="readbtn" onclick="readStory()">🔊 点击朗读</button>
+    {story_audio_html}
   </section>
 
   <section>

@@ -35,7 +35,7 @@
 
 1. **故事**：贴近孩子日常生活，围绕 child.interests 里的一个或两个兴趣展开（我的世界、金毛犬 niuniu、弹钢琴、游泳），语气轻松有趣，不要写成教材范文。故事长度和难度要匹配 state.current_difficulty（1最简单，5最难），生词数量不超过 state.vocab_count_target 个新词（不算 assessment.target_words 里已经在巩固的词）。
 2. **生词表**：优先复用/巩固 assessment.target_words 里的词（如果故事里用到了），其余可以从常见日常词里选，暂时不要引入 assessment.avoid_for_now 里的词，除非难度已经调到 4 或 5 级。
-3. **朗读**：不需要单独生成音频，story_text 本身就是朗读文本，网页会加"点击朗读"按钮调用浏览器自带朗读功能。
+3. **朗读**：story_text 本身就是朗读文本，之后会由另一个脚本自动合成标准发音的音频，你不需要处理这一步。
 4. **阅读理解题**：4道，至少1道是需要推理的（不能直接从原文抄答案）。
 5. **口语问答**：3道，要能让孩子联系自己的真实生活回答，不是复述课文。
 6. **三句话写作**：因为 assessment.focus_area 是"过去时+连接词+细节句"，写作任务要专门针对这个弱点设计——用 scaffold 里的3个提示句引导孩子写"发生了什么→接下来发生了什么(用连接词)→感受如何(用because)"这种结构，不要直接给出完整例句让孩子抄。
@@ -44,12 +44,12 @@
 ## 执行步骤（必须按顺序）
 
 1. 用 Read 工具读取 profile.json。
-2. 用 Write 工具生成 `day-YYYY-MM-DD.json`。
-3. 生成后，立即用 Bash 工具执行：`python3 ./generate_html.py YYYY-MM-DD`，生成当天的网页文件 `day-YYYY-MM-DD.html`。
-4. 检查两个文件都真实存在后才算完成。如果 HTML 生成失败，在回复中说明原因，不要声称已完成。
+2. 用 Write 工具生成 `day-YYYY-MM-DD.json`，严格符合上面的 JSON 结构。
+3. 检查文件确实写入成功后就算完成，不需要再运行任何脚本（音频合成、网页生成、校验都由 workflow 的后续步骤自动处理）。
 
 ## 禁止事项
 
 - 不要修改 profile.json（难度调整由另一个 workflow 根据家长反馈处理，不是这一步的任务）。
-- 不要修改 README.md、index.html、publish.sh、generate_html.py 等已有文件。
+- 不要修改 README.md、index.html、publish.sh、generate_html.py、enrich_content.py 等已有文件。
+- 不要自己运行 generate_html.py 或 enrich_content.py，这些由 workflow 单独的步骤负责。
 - 不要编造和孩子兴趣无关的内容，不要写应试刷题风格的题目。
