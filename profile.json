@@ -31,7 +31,7 @@
     "focus_area": "写作：过去时 + 连接词（and/after that/because） + 细节句"
   },
   "state": {
-    "current_difficulty": 2,
+    "current_difficulty": 1,
     "difficulty_scale": "1(最简单)-5(最难)",
     "vocab_count_target": 5,
     "last_updated": "2026-07-29"
@@ -42,6 +42,14 @@
       "feedback": "内容感兴趣",
       "difficulty_before": 2,
       "difficulty_after": 2,
+      "vocab_count_before": 5,
+      "vocab_count_after": 5
+    },
+    {
+      "date": "2026-07-29",
+      "feedback": "太难",
+      "difficulty_before": 2,
+      "difficulty_after": 1,
       "vocab_count_before": 5,
       "vocab_count_after": 5
     }
