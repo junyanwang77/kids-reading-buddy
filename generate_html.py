@@ -42,9 +42,19 @@ def build_html(data):
             f'<div class="ex">{esc(v["example"])}</div></li>'
         )
 
+    def speak_item(idx, q):
+        return f"""<li>
+      <div class="q-text">{esc(q)}</div>
+      <div class="recorder" data-idx="{idx}">
+        <button class="recbtn" onclick="toggleRecord(this)">🎤 录音</button>
+        <audio class="rec-playback" controls style="display:none;"></audio>
+        <a class="rec-download" style="display:none;">⬇ 保存录音</a>
+      </div>
+    </li>"""
+
     vocab_html = "".join(vocab_item(v) for v in data["vocabulary"])
     comp_html = "".join(f"<li>{esc(q)}</li>" for q in data["comprehension_questions"])
-    speak_html = "".join(f"<li>{esc(q)}</li>" for q in data["speaking_questions"])
+    speak_html = "".join(speak_item(i, q) for i, q in enumerate(data["speaking_questions"]))
     scaffold_html = "".join(f"<li>{esc(s)}</li>" for s in data["writing_task"]["scaffold"])
     observe_html = "".join(
         f'<li><label><input type="checkbox"> {esc(o)}</label></li>'
@@ -93,6 +103,13 @@ def build_html(data):
   .fb-row {{ display:flex; flex-wrap:wrap; gap:8px; }}
   .fbtn {{ flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }}
   .hint {{ font-size:12px; color:#999; margin-top:10px; line-height:1.6; }}
+  .q-text {{ margin-bottom:6px; }}
+  .recorder {{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; }}
+  .recbtn {{ padding:6px 14px; background:#f2f2f7; color:#333; border:1px solid #ddd; border-radius:10px; font-size:12px; }}
+  .recbtn.recording {{ background:#e33; color:#fff; border-color:#e33; }}
+  .rec-playback {{ width:100%; height:32px; margin-top:2px; }}
+  .rec-download {{ font-size:12px; color:#06c; text-decoration:none; }}
+  .rec-hint {{ font-size:12px; color:#aaa; margin-top:10px; line-height:1.6; }}
 </style>
 </head>
 <body>
@@ -120,6 +137,7 @@ def build_html(data):
   <section>
     <h2>4. 口语问答（说出来，不用写）</h2>
     <ul>{speak_html}</ul>
+    <div class="rec-hint">点"🎤 录音"可以把孩子的回答录下来当场回放；觉得满意的话点"保存录音"下载到本设备（录音不会自动上传，只存在这台手机/电脑上）。</div>
   </section>
 
   <section>
@@ -140,13 +158,79 @@ def build_html(data):
   </section>
 </div>
 <script>
+var speaking = false;
+
+function updateReadBtns() {{
+  document.querySelectorAll('.readbtn').forEach(function(b) {{
+    if (!b.dataset.orig) b.dataset.orig = b.textContent;
+    b.textContent = speaking ? '⏹ 停止朗读' : b.dataset.orig;
+  }});
+}}
+
 function readStory() {{
+  if (speaking) {{
+    window.speechSynthesis.cancel();
+    speaking = false;
+    updateReadBtns();
+    return;
+  }}
   var text = document.getElementById('storyText').innerText;
   var u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US';
   u.rate = 0.9;
+  u.onend = function() {{ speaking = false; updateReadBtns(); }};
+  u.onerror = function() {{ speaking = false; updateReadBtns(); }};
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(u);
+  speaking = true;
+  updateReadBtns();
+}}
+
+var activeRecorders = {{}};
+var STORY_DATE = {date!r};
+
+async function toggleRecord(btn) {{
+  var wrap = btn.closest('.recorder');
+  var idx = wrap.dataset.idx;
+
+  if (activeRecorders[idx]) {{
+    activeRecorders[idx].stop();
+    return;
+  }}
+
+  if (!navigator.mediaDevices || !window.MediaRecorder) {{
+    alert('这个浏览器不支持录音功能，换个浏览器（比如手机自带的浏览器）试试。');
+    return;
+  }}
+
+  try {{
+    var stream = await navigator.mediaDevices.getUserMedia({{ audio: true }});
+    var mr = new MediaRecorder(stream);
+    var chunks = [];
+    mr.ondataavailable = function(e) {{ if (e.data.size > 0) chunks.push(e.data); }};
+    mr.onstop = function() {{
+      var blob = new Blob(chunks, {{ type: mr.mimeType || 'audio/webm' }});
+      var url = URL.createObjectURL(blob);
+      var audioEl = wrap.querySelector('.rec-playback');
+      audioEl.src = url;
+      audioEl.style.display = 'block';
+      var ext = (mr.mimeType || '').indexOf('mp4') !== -1 ? 'm4a' : 'webm';
+      var dl = wrap.querySelector('.rec-download');
+      dl.href = url;
+      dl.download = 'speaking-' + (parseInt(idx, 10) + 1) + '-' + STORY_DATE + '.' + ext;
+      dl.style.display = 'inline-block';
+      stream.getTracks().forEach(function(t) {{ t.stop(); }});
+      btn.textContent = '🎤 重新录音';
+      btn.classList.remove('recording');
+      delete activeRecorders[idx];
+    }};
+    mr.start();
+    activeRecorders[idx] = mr;
+    btn.textContent = '⏹ 停止录音';
+    btn.classList.add('recording');
+  }} catch (err) {{
+    alert('没能打开麦克风，请检查浏览器是否有录音权限。');
+  }}
 }}
 </script>
 </body>
