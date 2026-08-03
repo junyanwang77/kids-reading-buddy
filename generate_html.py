@@ -23,6 +23,20 @@ def issue_url(date, tag):
     )
 
 
+def known_word_url(date, word):
+    title = f"已认识:{word} ({date})"
+    body = (
+        f"单词: {word}\n日期: {date}\n\n"
+        "（点这个是告诉系统这个词孩子已经认识了，以后生成新内容时不会再把它当成生词。"
+        "提交后不用做别的事。）"
+    )
+    from urllib.parse import quote
+    return (
+        f"https://github.com/{REPO}/issues/new"
+        f"?title={quote(title)}&labels=known-word&body={quote(body)}"
+    )
+
+
 def build_html(data):
     date = data["date"]
     difficulty = data.get("difficulty", "?")
@@ -39,7 +53,9 @@ def build_html(data):
         return (
             f'<li><b>{esc(v["word"])}</b>{ipa_html} {esc(v["meaning_cn"])}'
             f'{audio_html}'
-            f'<div class="ex">{esc(v["example"])}</div></li>'
+            f'<div class="ex">{esc(v["example"])}</div>'
+            f'<a class="knownbtn" target="_blank" href="{known_word_url(date, v["word"])}">✓ TA已认识，别再列了</a>'
+            f'</li>'
         )
 
     def speak_item(idx, q):
@@ -100,6 +116,7 @@ def build_html(data):
   ul li audio {{ display:block; height:32px; margin-top:4px; max-width:220px; }}
   .ipa {{ color:#888; font-size:13px; }}
   .ex {{ color:#888; font-size:13px; margin-top:2px; }}
+  .knownbtn {{ display:inline-block; margin-top:6px; padding:4px 10px; background:#f2f2f7; color:#06c; border-radius:8px; text-decoration:none; font-size:12px; }}
   .fb-row {{ display:flex; flex-wrap:wrap; gap:8px; }}
   .fbtn {{ flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }}
   .hint {{ font-size:12px; color:#999; margin-top:10px; line-height:1.6; }}

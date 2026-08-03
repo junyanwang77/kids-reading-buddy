@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """检查当天生成的内容包是否完整、结构正确。"""
+import csv
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -9,6 +11,61 @@ REQUIRED_KEYS = [
     "vocabulary", "comprehension_questions", "speaking_questions",
     "writing_task", "parent_observation",
 ]
+
+CEFR_CSV_PATH = Path("data/cefrj-vocabulary-profile.csv")
+PROFILE_PATH = Path("profile.json")
+CEFR_ORDER = ["A1", "A2", "B1", "B2"]
+
+# difficulty (1-5) -> 已知词区间，跟 profile.json 的 state.difficulty_scale 保持一致
+DIFFICULTY_KNOWN_LEVELS = {
+    1: {"A1"},
+    2: {"A1", "A2"},
+    3: {"A1", "A2"},
+    4: {"A1", "A2", "B1"},
+    5: {"A1", "A2", "B1", "B2"},
+}
+
+
+def load_cefr_levels(csv_path):
+    """headword(小写) -> 该词在词表里出现过的最简单 CEFR 等级。"""
+    if not csv_path.exists():
+        return {}
+    levels = {}
+    with csv_path.open(encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            word = row.get("headword", "").strip().lower()
+            cefr = row.get("CEFR", "").strip().upper()
+            if not word or cefr not in CEFR_ORDER:
+                continue
+            if word not in levels or CEFR_ORDER.index(cefr) < CEFR_ORDER.index(levels[word]):
+                levels[word] = cefr
+    return levels
+
+
+def warn_uncovered_vocab(data):
+    """非阻断检查：story_text 里可能有生词表没覆盖到的词，只打印 WARN，不影响退出码。"""
+    known_levels = DIFFICULTY_KNOWN_LEVELS.get(data.get("difficulty"))
+    if known_levels is None:
+        return
+    cefr_levels = load_cefr_levels(CEFR_CSV_PATH)
+    if not cefr_levels:
+        return
+
+    known_extra_words = set()
+    if PROFILE_PATH.exists():
+        profile = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
+        known_extra_words = {
+            w.strip().lower() for w in profile.get("assessment", {}).get("known_extra_words", [])
+        }
+
+    vocab_words = {v["word"].strip().lower() for v in data.get("vocabulary", []) if v.get("word")}
+    story_words = {w.lower() for w in re.findall(r"\b[a-zA-Z']+\b", data.get("story_text", ""))}
+
+    for word in sorted(story_words - vocab_words - known_extra_words):
+        cefr = cefr_levels.get(word)
+        if cefr and cefr not in known_levels:
+            print(f"WARN: '{word}' is CEFR {cefr}, above known band {sorted(known_levels)} "
+                  f"for difficulty {data['difficulty']}, but not listed in vocabulary")
 
 
 def main():
@@ -42,6 +99,8 @@ def main():
     if len(data["comprehension_questions"]) < 3:
         print("FAIL: fewer than 3 comprehension questions")
         sys.exit(1)
+
+    warn_uncovered_vocab(data)
 
     print(f"OK: {json_path} and {html_path} look valid")
 

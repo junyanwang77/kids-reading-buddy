@@ -4,9 +4,13 @@
 
 - child.interests：孩子的兴趣（跟内容主题绑定，不要写不相关的话题）
 - assessment.reading_level / writing_level / target_words / avoid_for_now / focus_area：孩子的真实强弱项
+- assessment.known_extra_words：家长手动确认孩子已经认识的词（哪怕词表/年龄判断觉得偏难），生词表里绝对不能列这些词
 - state.current_difficulty（1-5）：当前难度等级
+- state.difficulty_scale：current_difficulty 对应的 CEFR 已知词区间（比如 3 = A1+A2 已知词）
 - state.vocab_count_target：今天允许出现的生词数量上限
 - history：过去几天的反馈记录（如果有，参考它避免重复同一个故事套路）
+
+同时读取 `data/cefrj-vocabulary-profile.csv`（CEFR-J 词表，headword/pos/CEFR 三列），作为判断"孩子是否已经认识某个词"的客观依据，见下面生词表规则。
 
 ## 你的任务
 
@@ -35,8 +39,9 @@
 
 1. **故事**：贴近孩子日常生活，围绕 child.interests 里的一个或两个兴趣展开（我的世界、金毛犬 niuniu、弹钢琴、游泳），语气轻松有趣，不要写成教材范文。故事长度和难度要匹配 state.current_difficulty（1最简单，5最难）。state.vocab_count_target 是你**主动引入的新词**数量上限（不算 assessment.target_words 里已经在巩固的词），但这是个软上限，不是必须凑够的数量——宁可少几个真正的生词，也不要为了凑数塞进孩子早就会的词。写故事的时候，不要图省事用生僻词、书面语或不常见搭配；如果某个情节确实需要用到较难的词，必须同步把它加进生词表（见下）。
 2. **生词表**：这一步经常出问题，请严格按下面的标准执行：
+   - 最优先、无条件：**先检查 assessment.known_extra_words**，这个列表里的词无论 CEFR 等级、无论看起来多难，一律当作孩子已经认识，绝不能列入生词表——这是家长实测确认过的，比任何通用标准或年龄判断都优先。
    - 第一优先：复用/巩固 assessment.target_words 里的词（如果故事里用到了）。
-   - 第二优先：**逐句检查 story_text，把里面所有"对这个孩子来说可能是生词"的词都列出来**——判断标准是"一个母语为英语、只有7-8岁阅读水平的孩子是否已经认识这个词"，如果答案是"肯定认识"（比如 pool、tail、ball、happy、play、walk、run、big、small、dog、cat、house 这类基础词），就不要列入生词表；如果答案是"不一定/可能不认识"（比如较少见的名词、书面语动词、多音节词、习语搭配等），必须列入生词表，哪怕这会让生词数量超过 vocab_count_target 也没关系——**覆盖故事里真正的生词，比控制数量更重要**，绝不能出现"故事里有孩子看不懂的词，但生词表没讲"的情况。
+   - 第二优先：**逐句检查 story_text，把里面所有"对这个孩子来说可能是生词"的词都列出来**——判断标准以 `data/cefrj-vocabulary-profile.csv` 为准：先在词表里查这个词（不区分大小写，按原形/headword 匹配），如果它的 CEFR 等级落在 state.difficulty_scale 对应的"已知词区间"内（比如当前难度是 3，已知区间是 A1+A2，词表里查到该词是 A1 或 A2），就不要列入生词表；如果查到的等级**高于**已知区间（比如已知区间是 A1+A2，但词是 B1/B2），必须列入生词表。如果这个词根本不在词表里（人名、专有名词、缩写、俚语、复合词、极生僻词等，词表也可能因为没做词形还原而查不到某些变形），退回原来的判断标准："一个母语为英语、只有7-8岁阅读水平的孩子是否已经认识这个词"来决定要不要列入。不管用哪种判断方式，只要判定为生词就必须列入生词表，哪怕这会让生词数量超过 vocab_count_target 也没关系——**覆盖故事里真正的生词，比控制数量更重要**，绝不能出现"故事里有孩子看不懂的词，但生词表没讲"的情况。
    - 暂时不要主动引入 assessment.avoid_for_now 里的词，除非难度已经调到 4 或 5 级，或者情节离不开这个词——这种情况下必须列入生词表解释清楚。
    - 生成完 vocabulary 数组后，自己再逐个检查一遍 story_text 里的实词（名词/动词/形容词/副词），确认没有遗漏任何一个可能超出孩子水平但没被列入生词表的词。
 3. **朗读**：story_text 本身就是朗读文本，之后会由另一个脚本自动合成标准发音的音频，你不需要处理这一步。
@@ -54,6 +59,7 @@
 ## 禁止事项
 
 - 不要修改 profile.json（难度调整由另一个 workflow 根据家长反馈处理，不是这一步的任务）。
+- 不要修改 data/cefrj-vocabulary-profile.csv（只读参考词表）。
 - 不要修改 README.md、index.html、publish.sh、generate_html.py、enrich_content.py 等已有文件。
 - 不要自己运行 generate_html.py 或 enrich_content.py，这些由 workflow 单独的步骤负责。
 - 不要编造和孩子兴趣无关的内容，不要写应试刷题风格的题目。

@@ -28,11 +28,12 @@
       "suggest",
       "exhausted"
     ],
+    "known_extra_words": [],
     "focus_area": "写作：过去时 + 连接词（and/after that/because） + 细节句"
   },
   "state": {
     "current_difficulty": 1,
-    "difficulty_scale": "1(最简单)-5(最难)",
+    "difficulty_scale": "1=A1已知词 / 2=A1+A2已知词 / 3=A1+A2已知词(句子更长) / 4=A1+A2+B1已知词 / 5=A1+A2+B1+B2已知词（数字越大，允许假设孩子已认识的词越多，参照 data/cefrj-vocabulary-profile.csv；不在该区间内的词都算生词）",
     "vocab_count_target": 5,
     "last_updated": "2026-07-29"
   },

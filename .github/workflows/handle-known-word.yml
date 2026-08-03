@@ -1,0 +1,54 @@
+name: Handle Known Word
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  mark-known:
+    if: contains(github.event.issue.labels.*.name, 'known-word')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract word
+        id: word
+        run: |
+          word=$(jq -r '.issue.body' "$GITHUB_EVENT_PATH" | grep '^单词:' | sed 's/^单词: *//' | head -1 | tr -d '\r')
+          if [ -z "$word" ]; then
+            echo "No word found in issue body"
+            exit 1
+          fi
+          echo "word=$word" >> "$GITHUB_OUTPUT"
+
+      - name: Update profile.json
+        run: python3 mark_word_known.py "${{ steps.word.outputs.word }}"
+
+      - name: Commit and push
+        run: |
+          git config user.name "kids-reading-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add profile.json
+          git diff --cached --quiet && echo "No changes to commit" || git commit -m "Mark '${{ steps.word.outputs.word }}' as known from feedback"
+          git push
+
+      - name: Close issue with comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '已记录："${{ steps.word.outputs.word }}" 加入已认识词表，以后不会再出现在生词表里，感谢！'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
