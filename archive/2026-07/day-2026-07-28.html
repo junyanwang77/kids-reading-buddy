@@ -24,9 +24,17 @@
   ul li audio { display:block; height:32px; margin-top:4px; max-width:220px; }
   .ipa { color:#888; font-size:13px; }
   .ex { color:#888; font-size:13px; margin-top:2px; }
+  .knownbtn { display:inline-block; margin-top:6px; padding:4px 10px; background:#f2f2f7; color:#06c; border-radius:8px; text-decoration:none; font-size:12px; }
   .fb-row { display:flex; flex-wrap:wrap; gap:8px; }
   .fbtn { flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }
   .hint { font-size:12px; color:#999; margin-top:10px; line-height:1.6; }
+  .q-text { margin-bottom:6px; }
+  .recorder { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .recbtn { padding:6px 14px; background:#f2f2f7; color:#333; border:1px solid #ddd; border-radius:10px; font-size:12px; }
+  .recbtn.recording { background:#e33; color:#fff; border-color:#e33; }
+  .rec-playback { width:100%; height:32px; margin-top:2px; }
+  .rec-download { font-size:12px; color:#06c; text-decoration:none; }
+  .rec-hint { font-size:12px; color:#aaa; margin-top:10px; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -43,7 +51,7 @@
 
   <section>
     <h2>2. 生词解释</h2>
-    <ul><li><b>nervous</b> <span class="ipa">/ˈnərvəs/</span> 紧张的<audio controls preload="none" src="word-0.mp3"></audio><div class="ex">She looked nervous when she saw the big blue water.</div></li><li><b>scared</b> <span class="ipa">/skɛrd/</span> 害怕的<audio controls preload="none" src="word-1.mp3"></audio><div class="ex">At first she was scared, but then she started to swim!</div></li><li><b>completely</b> <span class="ipa">/kəmˈplitli/</span> 完全地<audio controls preload="none" src="word-2.mp3"></audio><div class="ex">Her tail went completely wet.</div></li><li><b>instead</b> <span class="ipa">/ˌɪnˈstɛd/</span> 代替，而不是<audio controls preload="none" src="word-3.mp3"></audio><div class="ex">Instead of going home right away, we sat by the pool.</div></li><li><b>pool</b> <span class="ipa">/pul/</span> 游泳池<audio controls preload="none" src="word-4.mp3"></audio><div class="ex">My dog Niuniu came with me to the swimming pool.</div></li><li><b>tail</b> <span class="ipa">/teɪl/</span> 尾巴<audio controls preload="none" src="word-5.mp3"></audio><div class="ex">Her legs moved fast, and her tail went completely wet.</div></li></ul>
+    <ul><li><b>nervous</b> <span class="ipa">/ˈnərvəs/</span> 紧张的<audio controls preload="none" src="word-0.mp3"></audio><div class="ex">She looked nervous when she saw the big blue water.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Anervous%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20nervous%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>scared</b> <span class="ipa">/skɛrd/</span> 害怕的<audio controls preload="none" src="word-1.mp3"></audio><div class="ex">At first she was scared, but then she started to swim!</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Ascared%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20scared%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>completely</b> <span class="ipa">/kəmˈplitli/</span> 完全地<audio controls preload="none" src="word-2.mp3"></audio><div class="ex">Her tail went completely wet.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Acompletely%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20completely%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>instead</b> <span class="ipa">/ˌɪnˈstɛd/</span> 代替，而不是<audio controls preload="none" src="word-3.mp3"></audio><div class="ex">Instead of going home right away, we sat by the pool.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Ainstead%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20instead%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>pool</b> <span class="ipa">/pul/</span> 游泳池<audio controls preload="none" src="word-4.mp3"></audio><div class="ex">My dog Niuniu came with me to the swimming pool.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Apool%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20pool%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>tail</b> <span class="ipa">/teɪl/</span> 尾巴<audio controls preload="none" src="word-5.mp3"></audio><div class="ex">Her legs moved fast, and her tail went completely wet.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Atail%20%282026-07-28%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20tail%0A%E6%97%A5%E6%9C%9F%3A%202026-07-28%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li></ul>
   </section>
 
   <section>
@@ -53,7 +61,29 @@
 
   <section>
     <h2>4. 口语问答（说出来，不用写）</h2>
-    <ul><li>Have you ever felt nervous about trying something new, like Niuniu at the pool? What happened?</li><li>If you could teach Niuniu one new trick, what would it be and why?</li><li>Do you like swimming with Niuniu or your family? Tell me about a fun day at the pool.</li></ul>
+    <ul><li>
+      <div class="q-text">Have you ever felt nervous about trying something new, like Niuniu at the pool? What happened?</div>
+      <div class="recorder" data-idx="0">
+        <button class="recbtn" onclick="toggleRecord(this)">🎤 录音</button>
+        <audio class="rec-playback" controls style="display:none;"></audio>
+        <a class="rec-download" style="display:none;">⬇ 保存录音</a>
+      </div>
+    </li><li>
+      <div class="q-text">If you could teach Niuniu one new trick, what would it be and why?</div>
+      <div class="recorder" data-idx="1">
+        <button class="recbtn" onclick="toggleRecord(this)">🎤 录音</button>
+        <audio class="rec-playback" controls style="display:none;"></audio>
+        <a class="rec-download" style="display:none;">⬇ 保存录音</a>
+      </div>
+    </li><li>
+      <div class="q-text">Do you like swimming with Niuniu or your family? Tell me about a fun day at the pool.</div>
+      <div class="recorder" data-idx="2">
+        <button class="recbtn" onclick="toggleRecord(this)">🎤 录音</button>
+        <audio class="rec-playback" controls style="display:none;"></audio>
+        <a class="rec-download" style="display:none;">⬇ 保存录音</a>
+      </div>
+    </li></ul>
+    <div class="rec-hint">点"🎤 录音"可以把孩子的回答录下来当场回放；觉得满意的话点"保存录音"下载到本设备（录音不会自动上传，只存在这台手机/电脑上）。</div>
   </section>
 
   <section>
@@ -74,13 +104,79 @@
   </section>
 </div>
 <script>
+var speaking = false;
+
+function updateReadBtns() {
+  document.querySelectorAll('.readbtn').forEach(function(b) {
+    if (!b.dataset.orig) b.dataset.orig = b.textContent;
+    b.textContent = speaking ? '⏹ 停止朗读' : b.dataset.orig;
+  });
+}
+
 function readStory() {
+  if (speaking) {
+    window.speechSynthesis.cancel();
+    speaking = false;
+    updateReadBtns();
+    return;
+  }
   var text = document.getElementById('storyText').innerText;
   var u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US';
   u.rate = 0.9;
+  u.onend = function() { speaking = false; updateReadBtns(); };
+  u.onerror = function() { speaking = false; updateReadBtns(); };
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(u);
+  speaking = true;
+  updateReadBtns();
+}
+
+var activeRecorders = {};
+var STORY_DATE = '2026-07-28';
+
+async function toggleRecord(btn) {
+  var wrap = btn.closest('.recorder');
+  var idx = wrap.dataset.idx;
+
+  if (activeRecorders[idx]) {
+    activeRecorders[idx].stop();
+    return;
+  }
+
+  if (!navigator.mediaDevices || !window.MediaRecorder) {
+    alert('这个浏览器不支持录音功能，换个浏览器（比如手机自带的浏览器）试试。');
+    return;
+  }
+
+  try {
+    var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    var mr = new MediaRecorder(stream);
+    var chunks = [];
+    mr.ondataavailable = function(e) { if (e.data.size > 0) chunks.push(e.data); };
+    mr.onstop = function() {
+      var blob = new Blob(chunks, { type: mr.mimeType || 'audio/webm' });
+      var url = URL.createObjectURL(blob);
+      var audioEl = wrap.querySelector('.rec-playback');
+      audioEl.src = url;
+      audioEl.style.display = 'block';
+      var ext = (mr.mimeType || '').indexOf('mp4') !== -1 ? 'm4a' : 'webm';
+      var dl = wrap.querySelector('.rec-download');
+      dl.href = url;
+      dl.download = 'speaking-' + (parseInt(idx, 10) + 1) + '-' + STORY_DATE + '.' + ext;
+      dl.style.display = 'inline-block';
+      stream.getTracks().forEach(function(t) { t.stop(); });
+      btn.textContent = '🎤 重新录音';
+      btn.classList.remove('recording');
+      delete activeRecorders[idx];
+    };
+    mr.start();
+    activeRecorders[idx] = mr;
+    btn.textContent = '⏹ 停止录音';
+    btn.classList.add('recording');
+  } catch (err) {
+    alert('没能打开麦克风，请检查浏览器是否有录音权限。');
+  }
 }
 </script>
 </body>
