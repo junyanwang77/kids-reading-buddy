@@ -44,6 +44,7 @@ def build_html(data):
     story_text = esc(data["story_text"])
 
     def vocab_item(v):
+        pos_html = f' <span class="pos">{esc(v["pos"])}</span>' if v.get("pos") else ""
         ipa_html = f' <span class="ipa">/{esc(v["ipa"])}/</span>' if v.get("ipa") else ""
         audio_html = (
             f'<audio controls preload="none" src="{esc(v["audio"])}"></audio>'
@@ -51,7 +52,7 @@ def build_html(data):
             else ""
         )
         return (
-            f'<li><b>{esc(v["word"])}</b>{ipa_html} {esc(v["meaning_cn"])}'
+            f'<li><b>{esc(v["word"])}</b>{pos_html}{ipa_html} {esc(v["meaning_cn"])}'
             f'{audio_html}'
             f'<div class="ex">{esc(v["example"])}</div>'
             f'<a class="knownbtn" target="_blank" href="{known_word_url(date, v["word"])}">✓ TA已认识，别再列了</a>'
@@ -71,7 +72,13 @@ def build_html(data):
     vocab_html = "".join(vocab_item(v) for v in data["vocabulary"])
     comp_html = "".join(f"<li>{esc(q)}</li>" for q in data["comprehension_questions"])
     speak_html = "".join(speak_item(i, q) for i, q in enumerate(data["speaking_questions"]))
-    scaffold_html = "".join(f"<li>{esc(s)}</li>" for s in data["writing_task"]["scaffold"])
+    def write_item(idx, s):
+        return f"""<li>
+      <div class="q-text">{esc(s)}</div>
+      <textarea class="write-box" data-idx="{idx}" rows="2" placeholder="在这里写第 {idx + 1} 句..."></textarea>
+    </li>"""
+
+    scaffold_html = "".join(write_item(i, s) for i, s in enumerate(data["writing_task"]["scaffold"]))
     observe_html = "".join(
         f'<li><label><input type="checkbox"> {esc(o)}</label></li>'
         for o in data["parent_observation"]
@@ -114,8 +121,14 @@ def build_html(data):
   ul li {{ padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px; line-height:1.6; }}
   ul li:last-child {{ border-bottom:none; }}
   ul li audio {{ display:block; height:32px; margin-top:4px; max-width:220px; }}
+  .pos {{ color:#0a7; font-size:12px; font-style:italic; }}
   .ipa {{ color:#888; font-size:13px; }}
   .ex {{ color:#888; font-size:13px; margin-top:2px; }}
+  .write-box {{ width:100%; margin-top:6px; padding:8px 10px; font-size:14px; font-family:inherit; border:1px solid #ddd; border-radius:8px; resize:vertical; }}
+  .write-actions {{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:12px; }}
+  .savebtn {{ padding:8px 16px; background:#0a7; color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:600; }}
+  .write-download {{ font-size:12px; color:#06c; text-decoration:none; }}
+  .write-status {{ font-size:12px; color:#0a7; }}
   .knownbtn {{ display:inline-block; margin-top:6px; padding:4px 10px; background:#f2f2f7; color:#06c; border-radius:8px; text-decoration:none; font-size:12px; }}
   .fb-row {{ display:flex; flex-wrap:wrap; gap:8px; }}
   .fbtn {{ flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }}
@@ -160,7 +173,13 @@ def build_html(data):
   <section>
     <h2>5. 三句话写作</h2>
     <p style="font-size:14px;margin-bottom:8px;">{esc(data['writing_task']['prompt'])}</p>
-    <ul>{scaffold_html}</ul>
+    <ul id="writeList">{scaffold_html}</ul>
+    <div class="write-actions">
+      <button class="savebtn" onclick="saveWriting()">💾 保存写作</button>
+      <a class="write-download" id="writeDownload" style="display:none;">⬇ 下载留档</a>
+      <span class="write-status" id="writeStatus"></span>
+    </div>
+    <div class="rec-hint">写的时候会自动存在这台设备上，换个时间打开也还在；点"保存写作"能生成一份文本文件下载留档。</div>
   </section>
 
   <section>
@@ -248,6 +267,40 @@ async function toggleRecord(btn) {{
   }} catch (err) {{
     alert('没能打开麦克风，请检查浏览器是否有录音权限。');
   }}
+}}
+
+var WRITE_KEY = 'writing-' + STORY_DATE;
+
+function restoreWriting() {{
+  var saved;
+  try {{ saved = JSON.parse(localStorage.getItem(WRITE_KEY) || '[]'); }} catch (e) {{ saved = []; }}
+  document.querySelectorAll('.write-box').forEach(function(box) {{
+    var idx = parseInt(box.dataset.idx, 10);
+    if (saved[idx]) box.value = saved[idx];
+    box.addEventListener('input', function() {{
+      var values = [];
+      document.querySelectorAll('.write-box').forEach(function(b) {{ values[parseInt(b.dataset.idx, 10)] = b.value; }});
+      localStorage.setItem(WRITE_KEY, JSON.stringify(values));
+    }});
+  }});
+}}
+restoreWriting();
+
+function saveWriting() {{
+  var values = [];
+  document.querySelectorAll('.write-box').forEach(function(b) {{ values[parseInt(b.dataset.idx, 10)] = b.value; }});
+  localStorage.setItem(WRITE_KEY, JSON.stringify(values));
+  var text = values.map(function(v, i) {{ return (i + 1) + '. ' + (v || ''); }}).join('\\n');
+  var blob = new Blob([text], {{ type: 'text/plain' }});
+  var url = URL.createObjectURL(blob);
+  var dl = document.getElementById('writeDownload');
+  dl.href = url;
+  dl.download = 'writing-' + STORY_DATE + '.txt';
+  dl.style.display = 'inline-block';
+  dl.click();
+  var status = document.getElementById('writeStatus');
+  status.textContent = '已保存 ✓';
+  setTimeout(function() {{ status.textContent = ''; }}, 2000);
 }}
 </script>
 </body>

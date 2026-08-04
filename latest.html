@@ -22,8 +22,14 @@
   ul li { padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:14px; line-height:1.6; }
   ul li:last-child { border-bottom:none; }
   ul li audio { display:block; height:32px; margin-top:4px; max-width:220px; }
+  .pos { color:#0a7; font-size:12px; font-style:italic; }
   .ipa { color:#888; font-size:13px; }
   .ex { color:#888; font-size:13px; margin-top:2px; }
+  .write-box { width:100%; margin-top:6px; padding:8px 10px; font-size:14px; font-family:inherit; border:1px solid #ddd; border-radius:8px; resize:vertical; }
+  .write-actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:12px; }
+  .savebtn { padding:8px 16px; background:#0a7; color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:600; }
+  .write-download { font-size:12px; color:#06c; text-decoration:none; }
+  .write-status { font-size:12px; color:#0a7; }
   .knownbtn { display:inline-block; margin-top:6px; padding:4px 10px; background:#f2f2f7; color:#06c; border-radius:8px; text-decoration:none; font-size:12px; }
   .fb-row { display:flex; flex-wrap:wrap; gap:8px; }
   .fbtn { flex:1 1 auto; text-align:center; padding:10px 6px; background:#111; color:#fff; border-radius:10px; text-decoration:none; font-size:13px; font-weight:600; }
@@ -51,7 +57,7 @@
 
   <section>
     <h2>2. 生词解释</h2>
-    <ul><li><b>borrow</b> <span class="ipa">/ˈbɑˌroʊ/</span> 借（用）<audio controls preload="none" src="word-0.mp3"></audio><div class="ex">I asked my friend Amy to borrow hers.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aborrow%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20borrow%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>imagine</b> <span class="ipa">/ˌɪˈmæʤən/</span> 想象<audio controls preload="none" src="word-1.mp3"></audio><div class="ex">I closed my eyes and imagined myself swimming like a fish, very fast.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aimagine%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20imagine%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>goggles</b> <span class="ipa">/ˈgɑgəlz/</span> （游泳）护目镜<audio controls preload="none" src="word-2.mp3"></audio><div class="ex">I forgot my goggles at home, so I asked my friend Amy to borrow hers.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Agoggles%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20goggles%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>whole</b> <span class="ipa">/hoʊl/</span> 整个的<audio controls preload="none" src="word-3.mp3"></audio><div class="ex">I swam all the way across the whole pool without stopping!</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Awhole%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20whole%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>across</b> <span class="ipa">/əˈkrɔs/</span> 横过，从一边到另一边<audio controls preload="none" src="word-4.mp3"></audio><div class="ex">I swam all the way across the whole pool without stopping!</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aacross%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20across%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li></ul>
+    <ul><li><b>borrow</b> <span class="pos">v.</span> <span class="ipa">/ˈbɑˌroʊ/</span> 借（用）<audio controls preload="none" src="word-0.mp3"></audio><div class="ex">I asked my friend Amy to borrow hers.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aborrow%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20borrow%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>imagine</b> <span class="pos">v.</span> <span class="ipa">/ˌɪˈmæʤən/</span> 想象<audio controls preload="none" src="word-1.mp3"></audio><div class="ex">I closed my eyes and imagined myself swimming like a fish, very fast.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aimagine%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20imagine%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>goggles</b> <span class="pos">n.</span> <span class="ipa">/ˈgɑgəlz/</span> （游泳）护目镜<audio controls preload="none" src="word-2.mp3"></audio><div class="ex">I forgot my goggles at home, so I asked my friend Amy to borrow hers.</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Agoggles%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20goggles%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>whole</b> <span class="pos">adj.</span> <span class="ipa">/hoʊl/</span> 整个的<audio controls preload="none" src="word-3.mp3"></audio><div class="ex">I swam all the way across the whole pool without stopping!</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Awhole%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20whole%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li><li><b>across</b> <span class="pos">prep.</span> <span class="ipa">/əˈkrɔs/</span> 横过，从一边到另一边<audio controls preload="none" src="word-4.mp3"></audio><div class="ex">I swam all the way across the whole pool without stopping!</div><a class="knownbtn" target="_blank" href="https://github.com/junyanwang77/kids-reading-buddy/issues/new?title=%E5%B7%B2%E8%AE%A4%E8%AF%86%3Aacross%20%282026-08-04%29&labels=known-word&body=%E5%8D%95%E8%AF%8D%3A%20across%0A%E6%97%A5%E6%9C%9F%3A%202026-08-04%0A%0A%EF%BC%88%E7%82%B9%E8%BF%99%E4%B8%AA%E6%98%AF%E5%91%8A%E8%AF%89%E7%B3%BB%E7%BB%9F%E8%BF%99%E4%B8%AA%E8%AF%8D%E5%AD%A9%E5%AD%90%E5%B7%B2%E7%BB%8F%E8%AE%A4%E8%AF%86%E4%BA%86%EF%BC%8C%E4%BB%A5%E5%90%8E%E7%94%9F%E6%88%90%E6%96%B0%E5%86%85%E5%AE%B9%E6%97%B6%E4%B8%8D%E4%BC%9A%E5%86%8D%E6%8A%8A%E5%AE%83%E5%BD%93%E6%88%90%E7%94%9F%E8%AF%8D%E3%80%82%E6%8F%90%E4%BA%A4%E5%90%8E%E4%B8%8D%E7%94%A8%E5%81%9A%E5%88%AB%E7%9A%84%E4%BA%8B%E3%80%82%EF%BC%89">✓ TA已认识，别再列了</a></li></ul>
   </section>
 
   <section>
@@ -89,7 +95,22 @@
   <section>
     <h2>5. 三句话写作</h2>
     <p style="font-size:14px;margin-bottom:8px;">Write three sentences about a time you tried something new or difficult, like swimming a new way or practicing a hard piano piece.</p>
-    <ul><li>Sentence 1: Say what happened. (One day, I tried ___ and it was hard. I ___.)</li><li>Sentence 2: Say what happened next, using a connector like &#x27;after that&#x27; or &#x27;then&#x27;. (After that, I ___.)</li><li>Sentence 3: Say how you felt, using &#x27;because&#x27;. (I felt ___ because ___.)</li></ul>
+    <ul id="writeList"><li>
+      <div class="q-text">Sentence 1: Say what happened. (One day, I tried ___ and it was hard. I ___.)</div>
+      <textarea class="write-box" data-idx="0" rows="2" placeholder="在这里写第 1 句..."></textarea>
+    </li><li>
+      <div class="q-text">Sentence 2: Say what happened next, using a connector like &#x27;after that&#x27; or &#x27;then&#x27;. (After that, I ___.)</div>
+      <textarea class="write-box" data-idx="1" rows="2" placeholder="在这里写第 2 句..."></textarea>
+    </li><li>
+      <div class="q-text">Sentence 3: Say how you felt, using &#x27;because&#x27;. (I felt ___ because ___.)</div>
+      <textarea class="write-box" data-idx="2" rows="2" placeholder="在这里写第 3 句..."></textarea>
+    </li></ul>
+    <div class="write-actions">
+      <button class="savebtn" onclick="saveWriting()">💾 保存写作</button>
+      <a class="write-download" id="writeDownload" style="display:none;">⬇ 下载留档</a>
+      <span class="write-status" id="writeStatus"></span>
+    </div>
+    <div class="rec-hint">写的时候会自动存在这台设备上，换个时间打开也还在；点"保存写作"能生成一份文本文件下载留档。</div>
   </section>
 
   <section>
@@ -177,6 +198,40 @@ async function toggleRecord(btn) {
   } catch (err) {
     alert('没能打开麦克风，请检查浏览器是否有录音权限。');
   }
+}
+
+var WRITE_KEY = 'writing-' + STORY_DATE;
+
+function restoreWriting() {
+  var saved;
+  try { saved = JSON.parse(localStorage.getItem(WRITE_KEY) || '[]'); } catch (e) { saved = []; }
+  document.querySelectorAll('.write-box').forEach(function(box) {
+    var idx = parseInt(box.dataset.idx, 10);
+    if (saved[idx]) box.value = saved[idx];
+    box.addEventListener('input', function() {
+      var values = [];
+      document.querySelectorAll('.write-box').forEach(function(b) { values[parseInt(b.dataset.idx, 10)] = b.value; });
+      localStorage.setItem(WRITE_KEY, JSON.stringify(values));
+    });
+  });
+}
+restoreWriting();
+
+function saveWriting() {
+  var values = [];
+  document.querySelectorAll('.write-box').forEach(function(b) { values[parseInt(b.dataset.idx, 10)] = b.value; });
+  localStorage.setItem(WRITE_KEY, JSON.stringify(values));
+  var text = values.map(function(v, i) { return (i + 1) + '. ' + (v || ''); }).join('\n');
+  var blob = new Blob([text], { type: 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  var dl = document.getElementById('writeDownload');
+  dl.href = url;
+  dl.download = 'writing-' + STORY_DATE + '.txt';
+  dl.style.display = 'inline-block';
+  dl.click();
+  var status = document.getElementById('writeStatus');
+  status.textContent = '已保存 ✓';
+  setTimeout(function() { status.textContent = ''; }, 2000);
 }
 </script>
 </body>
