@@ -42,8 +42,8 @@ def load_cefr_levels(csv_path):
     return levels
 
 
-def warn_uncovered_vocab(data):
-    """非阻断检查：story_text 里可能有生词表没覆盖到的词，只打印 WARN，不影响退出码。"""
+def check_vocab_coverage(data):
+    """阻断检查：story_text 里如果有明显超出已知词区间、又没被列进生词表的词，直接判失败。"""
     known_levels = DIFFICULTY_KNOWN_LEVELS.get(data.get("difficulty"))
     if known_levels is None:
         return
@@ -61,30 +61,20 @@ def warn_uncovered_vocab(data):
     vocab_words = {v["word"].strip().lower() for v in data.get("vocabulary", []) if v.get("word")}
     story_words = {w.lower() for w in re.findall(r"\b[a-zA-Z']+\b", data.get("story_text", ""))}
 
+    missing = []
     for word in sorted(story_words - vocab_words - known_extra_words):
         cefr = cefr_levels.get(word)
         if cefr and cefr not in known_levels:
-            print(f"WARN: '{word}' is CEFR {cefr}, above known band {sorted(known_levels)} "
+            missing.append((word, cefr))
+
+    if missing:
+        for word, cefr in missing:
+            print(f"FAIL: '{word}' is CEFR {cefr}, above known band {sorted(known_levels)} "
                   f"for difficulty {data['difficulty']}, but not listed in vocabulary")
-
-
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: validate_reading.py YYYY-MM-DD")
-        sys.exit(1)
-    date = sys.argv[1]
-
-    json_path = Path(f"day-{date}.json")
-    html_path = Path(f"day-{date}.html")
-
-    if not json_path.exists():
-        print(f"FAIL: missing {json_path}")
-        sys.exit(1)
-    if not html_path.exists():
-        print(f"FAIL: missing {html_path}")
         sys.exit(1)
 
-    data = json.loads(json_path.read_text(encoding="utf-8"))
+
+def check_json_content(data, json_path):
     for key in REQUIRED_KEYS:
         if key not in data:
             print(f"FAIL: {json_path} missing key '{key}'")
@@ -100,7 +90,32 @@ def main():
         print("FAIL: fewer than 3 comprehension questions")
         sys.exit(1)
 
-    warn_uncovered_vocab(data)
+    check_vocab_coverage(data)
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: validate_reading.py YYYY-MM-DD [--json-only]")
+        sys.exit(1)
+    date = sys.argv[1]
+    json_only = "--json-only" in sys.argv[2:]
+
+    json_path = Path(f"day-{date}.json")
+    if not json_path.exists():
+        print(f"FAIL: missing {json_path}")
+        sys.exit(1)
+
+    data = json.loads(json_path.read_text(encoding="utf-8"))
+    check_json_content(data, json_path)
+
+    if json_only:
+        print(f"OK: {json_path} looks valid")
+        return
+
+    html_path = Path(f"day-{date}.html")
+    if not html_path.exists():
+        print(f"FAIL: missing {html_path}")
+        sys.exit(1)
 
     print(f"OK: {json_path} and {html_path} look valid")
 

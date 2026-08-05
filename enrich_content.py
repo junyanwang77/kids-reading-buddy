@@ -23,7 +23,7 @@ async def synth(text, out_path):
 
 
 def cleanup_old_audio():
-    for f in glob.glob("story.mp3") + glob.glob("word-*.mp3"):
+    for f in glob.glob("story-*.mp3") + glob.glob("word-*.mp3"):
         os.remove(f)
 
 
@@ -37,10 +37,13 @@ def main():
 
     cleanup_old_audio()
 
+    # 文件名按日期命名（而不是通用的 story.mp3/word-N.mp3），这样发布时能连同当天的
+    # html/json 一起原样归档进 archive/YYYY-MM/，往期页面不会在第二天被新内容覆盖掉。
+    story_audio_path = Path(f"story-{date}.mp3")
     try:
-        asyncio.run(synth(data["story_text"], Path("story.mp3")))
-        data["story_audio"] = "story.mp3"
-        print("OK: story.mp3 generated")
+        asyncio.run(synth(data["story_text"], story_audio_path))
+        data["story_audio"] = story_audio_path.name
+        print(f"OK: {story_audio_path} generated")
     except Exception as e:
         print(f"WARN: story audio generation failed, will fall back to browser TTS: {e}")
 
@@ -52,7 +55,7 @@ def main():
             print(f"WARN: ipa lookup for '{word}' failed: {e}")
 
         try:
-            audio_path = Path(f"word-{i}.mp3")
+            audio_path = Path(f"word-{date}-{i}.mp3")
             asyncio.run(synth(word, audio_path))
             item["audio"] = audio_path.name
         except Exception as e:

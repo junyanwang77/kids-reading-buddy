@@ -38,6 +38,13 @@ mkdir -p "$archive_dir"
 mv -f "$day_html" "$archive_dir/"
 mv -f "$day_json" "$archive_dir/"
 
+echo "Archiving today's audio into $archive_dir..."
+for audio_file in "story-${reading_date}.mp3" word-"${reading_date}"-*.mp3; do
+  if [ -f "$audio_file" ]; then
+    cp "$audio_file" "$archive_dir/"
+  fi
+done
+
 echo "Updating index.html to published date: $reading_date"
 
 python3 generate_index.py

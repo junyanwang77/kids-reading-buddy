@@ -49,6 +49,28 @@ jobs:
             --fallback-model haiku \
             --allowedTools "Read,Write"
 
+      - name: Validate generated JSON (structure + vocab coverage)
+        if: steps.today.outputs.skip != 'true'
+        run: |
+          python3 validate_reading.py "${{ steps.today.outputs.date }}" --json-only
+
+      - name: Independent English review pass
+        if: steps.today.outputs.skip != 'true'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          claude -p "$(cat prompts/english_review.md)" \
+            --output-format text \
+            --model sonnet \
+            --permission-mode bypassPermissions \
+            --fallback-model haiku \
+            --allowedTools "Read,Write"
+
+      - name: Re-validate JSON after English review
+        if: steps.today.outputs.skip != 'true'
+        run: |
+          python3 validate_reading.py "${{ steps.today.outputs.date }}" --json-only
+
       - name: Install audio/IPA tools
         if: steps.today.outputs.skip != 'true'
         run: pip install --quiet edge-tts eng-to-ipa
